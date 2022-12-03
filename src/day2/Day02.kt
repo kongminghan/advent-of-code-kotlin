@@ -5,38 +5,34 @@ import readInput
 const val wonScore = 6
 const val drawScore = 3
 
-enum class Move(val letter: String, val score: Int) {
-    Rock("A", 1),
-    Paper("B", 2),
-    Scissors("C", 3),
-
-}
-
-enum class MyMove(val letter: String, val score: Int) {
-    MyRock("X", 1),
-    MyPaper("Y", 2),
-    MyScissors("Z", 3)
-}
-
-fun String.toMove(): Move {
-    return Move.values().first { it.letter == this }
-}
-
-fun String.toMyMove(): MyMove {
-    return MyMove.values().first { it.letter == this }
+enum class Move(val score: Int) {
+    Rock(1),
+    Paper(2),
+    Scissors(3)
 }
 
 fun main() {
     val winPairs = listOf(
-        Move.Rock to MyMove.MyPaper,
-        Move.Paper to MyMove.MyScissors,
-        Move.Scissors to MyMove.MyRock
+        Move.Rock to Move.Paper,
+        Move.Paper to Move.Scissors,
+        Move.Scissors to Move.Rock
+    )
+
+    val moveMap = mapOf(
+        "A" to Move.Rock,
+        "X" to Move.Rock,
+        "B" to Move.Paper,
+        "Y" to Move.Paper,
+        "C" to Move.Scissors,
+        "Z" to Move.Scissors,
     )
 
     fun totalScore(input: List<String>): Int {
         return input.sumOf {
+            it[0].code
             val game = it.split(" ")
-            val pair = game.first().toMove() to game.last().toMyMove()
+            val pair = moveMap[game.first()]!! to moveMap[game.last()]!!
+
             pair.second.score + if (winPairs.contains(pair)) {
                 wonScore
             } else if (pair.first.score == pair.second.score) {
