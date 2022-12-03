@@ -1,3 +1,7 @@
+package day01
+
+import readInput
+
 fun main() {
     fun highestSumCalories(input: List<String>, limit: Int): Int {
         return input
