@@ -1,38 +1,52 @@
 package day3
 
 import readInput
-import java.lang.IllegalArgumentException
 
 fun main() {
 
-    fun totalPriorities(input: List<String>) : Int {
-        return input.sumOf { rucksack ->
-            val compartments = rucksack.chunked(rucksack.length.div(2))
-            val commonElements = compartments.first().toCharArray().toSet()
-                .intersect(compartments.last().toCharArray().toSet())
+    fun Char.toPriority() = if (this.isUpperCase()) {
+        this.code - 38
+    } else {
+        this.code - 96
+    }
 
-            commonElements.sumOf {
-                if (it.isUpperCase()) {
-                    it.code - 38
-                } else {
-                    it.code - 96
-                }
+    fun String.toCharSet(): Set<Char> = toCharArray().toSet()
+
+    fun List<String>.findIntersection(): Set<Char> {
+        return foldIndexed(setOf()) { index, acc, s ->
+            if (index == 0) {
+                acc + s.toCharSet()
+            } else {
+                acc.intersect(s.toCharSet())
             }
         }
     }
 
+    fun List<String>.findPriority(): Int = findIntersection()
+        .first()
+        .toPriority()
+
     fun part1(input: List<String>): Int {
-        return totalPriorities(input = input)
+        return input.sumOf { rucksack ->
+            rucksack
+                .chunked(rucksack.length.div(2))
+                .findPriority()
+        }
     }
 
     fun part2(input: List<String>): Int {
-        return input.size
+        return input.chunked(3).sumOf { rucksack ->
+            rucksack
+                .findPriority()
+        }
     }
 
     // test if implementation meets criteria from the description, like:
     val testInput = readInput(day = 3, name = "Day03_test")
     check(part1(testInput) == 157)
+    check(part2(testInput) == 70)
 
     val input = readInput(day = 3, name = "Day03")
     println(part1(input))
+    println(part2(input))
 }
