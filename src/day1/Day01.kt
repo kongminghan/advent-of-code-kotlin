@@ -1,4 +1,4 @@
-package day01
+package day1
 
 import readInput
 
@@ -29,11 +29,11 @@ fun main() {
     }
 
     // test if implementation meets criteria from the description, like:
-    val testInput = readInput("Day01_test")
+    val testInput = readInput(day = 1, name = "Day01_test")
     check(part1(testInput) == 9)
     check(part2(testInput) == 21)
 
-    val input = readInput(name = "Day01")
+    val input = readInput(day = 1, name = "Day01")
     println(part1(input))
     println(part2(input))
 }
