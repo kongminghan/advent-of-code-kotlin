@@ -3,7 +3,7 @@ import java.math.BigInteger
 import java.security.MessageDigest
 
 /**
- * Reads lines from the given input txt file.
+ * Reads lines from the given input txt file as string.
  */
 fun readInput(name: String) = File("src", "$name.txt")
     .readLines()
